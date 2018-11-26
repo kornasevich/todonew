@@ -1,0 +1,179 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+header {
+    width: 100%;
+    background-color: #222222;
+    height: 40px;
+    display: table;
+}
+
+header span {
+    color: #808080;
+    font-size: 21px;
+    display:table-cell!important;
+	vertical-align:middle;
+    padding-left: 20%;
+}
+
+.wrapper {
+    width: 600px;
+    margin: 0 auto;
+   position: relative;
+}
+
+.container{
+    display: flex;
+}
+
+.run-marks{
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top:5px;
+    right: -100px;
+}
+
+.run-marks_green{
+    margin: auto 0;
+    width: 10px;
+    height: 10px;
+    background-color: #90EE90;
+    
+}
+
+.run-marks_red{
+    margin: auto 0;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    
+}
+
+.run-marks_text{
+    font-size: 12px;
+    margin: 0 0 0 6px;
+    
+}
+
+
+
+.task-btn {
+    border: 1px solid black;
+    border-radius: 7px;
+    background-color: #337AB7;
+    color: white;
+    width: 100px;
+    height: 30px;
+}
+
+.task-btn_clear{
+    position: absolute;
+    top:3px;
+    left: 200px;
+    height: 27px;
+    background-color: #D3D3D3;
+}
+
+.task-btn_add{
+    position: absolute;
+    top: 60px;
+    right: 2px;
+    background-color: #0000CD;
+}
+
+.task-btn_add:active{
+    background-color: black;
+    opacity: 0.5;
+}
+
+.task-btn_clear:active{
+    background-color: black;
+    opacity: 0.5;
+}
+
+.task-input{
+    width:60%;
+    height: 26px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.task-date{
+    border-radius: 10px;
+    height: 26px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.todo-list{
+    width: 500px;
+}
+
+.newTaskBlock {
+    display: flex;
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 600px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.newTaskBlock input{
+    margin: auto 40px auto 40px;
+     
+}
+
+.new-task_date{
+    margin: auto 40px auto 40px;
+}
+
+.new-task_img{
+    position: absolute;
+    right: 10px;
+    padding-top: 13px;
+}
+
+.new-task_img:active {
+    margin:1px;
+}
+
+.new-task_img {
+    margin: auto 0;
+}
+
+.btn-class{
+ display: inline-block;
+ border: none;
+ color: #FFF;
+ border-radius: 4px;
+ -webkit-border-radius: 4px;
+ -moz-border-radius: 4px;
+ font-family: Verdana;
+ width: 100px;
+ height: 25px;
+ box-shadow: inset 0px 1px 1px 0 #90ADD2,0px 5px 0px 0 #223955,0px 8px 5px 0 #B3B3B3;
+ -moz-box-shadow: inset 0px 1px 1px 0 #90ADD2,0px 5px 0px 0 #223955,0px 8px 5px 0 #B3B3B3;
+ -webkit-box-shadow: inset 0px 1px 1px 0 #90ADD2,0px 5px 0px 0 #223955,0px 8px 5px 0 #B3B3B3;
+ text-shadow: 0 1px 0 #48576D;
+ background-image: linear-gradient(to top, #5884BC, #395e8d);
+ background-color: #4471a9;
+}
+.btn-class:hover, .btn-class:active{
+ border: none;
+ color: #FFF;
+ box-shadow: inset 0px 1px 0px 0 #90ADD2,0px 2px 0px 0 #223955,0px 4px 3px 0 #6B6B6B;
+ -moz-box-shadow: inset 0px 1px 0px 0 #90ADD2,0px 2px 0px 0 #223955,0px 4px 3px 0 #6B6B6B;
+ -webkit-box-shadow: inset 0px 1px 0px 0 #90ADD2,0px 2px 0px 0 #223955,0px 4px 3px 0 #6B6B6B;
+ background-color: #395e8d;
+}
+
+
+
+
+
+

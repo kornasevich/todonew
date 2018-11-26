@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <span>ToDo List</span>
+    </header>
+
+    <main>
+        <div class="wrapper">
+            <h1>ToDo List</h1>
+
+            <div class="run-marks">
+                <div class="container">
+                    <div class="run-marks_green"></div>
+                    <p class="run-marks_text"> - Задача выполнена</p>
+                </div>
+                <div class="container">
+                    <div class="run-marks_red"></div>
+                    <p class="run-marks_text"> - Задача не выполнена</p>
+                </div>
+            </div>
+
+            <button class="task-btn task-btn_clear btn-class"><span>Clear List</span></button>
+            <input class="task-date" type="date" value="2018-11-22" min="2018-11-22" max="2999-12-31">
+            <input type="text" class="task-input" placeholder="     New Task">
+            <button class="task-btn task-btn_add btn-class"><span>Add</span></button>
+            <div class="todo-list"></div>
+        </div>
+    </main>
+    <script src="js/todo.js"></script>
+</body>
+
+</html>
