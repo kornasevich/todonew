@@ -46,11 +46,11 @@ header span {
     
 }
 
-.run-marks_red{
+.run-marks_gray{
     margin: auto 0;
     width: 10px;
     height: 10px;
-    background-color: red;
+    background-color: lightgray;
     
 }
 
@@ -171,6 +171,50 @@ header span {
  -webkit-box-shadow: inset 0px 1px 0px 0 #90ADD2,0px 2px 0px 0 #223955,0px 4px 3px 0 #6B6B6B;
  background-color: #395e8d;
 }
+
+.newTaskBlock{
+    background-color: lightgray;
+}
+
+.sort-list{
+    width:5px;
+    height: 5px;
+    display: flex;
+    position: relative;
+}
+
+.sort-list_date {
+    display:flex;
+    position: absolute;
+    left:165px;
+}
+
+.sort-list_text{
+    display:flex;
+    position: absolute;
+    left:360px;
+}
+
+.sort-list_up{
+    border: 5px solid transparent;
+    border-bottom: 10px solid gray;
+    margin:auto 0;
+}
+
+.sort-list_down{
+    border: 5px solid transparent;
+    border-top: 10px solid gray;
+    margin:5px;
+}
+
+.filter-list{
+    position: absolute;
+    left: 0;
+    top:250px;
+}
+
+
+
 
 
 

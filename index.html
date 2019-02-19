@@ -13,6 +13,16 @@
     </header>
 
     <main>
+        <div class="filter-list">
+            <span style="margin-left: 70px">Фильтр</span>
+            <div  style ="margin-bottom: 20px;margin-top: 20px" class="date">
+                Мин<input style="margin-left: 36px" class="date-min" type="date"><br></br>Макс<input style="margin-left: 30px; " class="date-max" type="date">
+            </div>
+            <div class="text">
+                Введите текст<input style="width:103px" class="text-filter">
+            </div>
+            <button style="margin-top:20px; margin-left: 70px">Показать</button>
+        </div>
         <div class="wrapper">
             <h1>ToDo List</h1>
 
@@ -22,15 +32,28 @@
                     <p class="run-marks_text"> - Задача выполнена</p>
                 </div>
                 <div class="container">
-                    <div class="run-marks_red"></div>
+                    <div class="run-marks_gray"></div>
                     <p class="run-marks_text"> - Задача не выполнена</p>
                 </div>
             </div>
 
             <button class="task-btn task-btn_clear btn-class"><span>Clear List</span></button>
-            <input class="task-date" type="date" value="2018-11-22" min="2018-11-22" max="2999-12-31">
+            <input class="task-date"  type="date" value="2019-02-18" min="2019-02-18" max="2999-12-31">
             <input type="text" class="task-input" placeholder="     New Task">
             <button class="task-btn task-btn_add btn-class"><span>Add</span></button>
+
+            <div class="sort-list">
+                <div class="sort-list_date">
+                    <div class="sort-list_up"></div>
+                    <div class="sort-list_down"></div>
+                </div>
+
+                <div class="sort-list_text">
+                    <div class="sort-list_up"></div>
+                    <div class="sort-list_down"></div>
+                </div>
+            </div>
+            <div class="filter-list"></div>
             <div class="todo-list"></div>
         </div>
     </main>
