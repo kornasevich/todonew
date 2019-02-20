@@ -21,22 +21,22 @@ let dateMass = [];
 
     for (let index = 0; index < localStorage.length; index++) {
         let elementLocal = JSON.parse(localStorage.getItem(localStorage.key(index)));
-        var newTaskBlock = document.createElement('div');
+        let newTaskBlock = document.createElement('div');
         newTaskBlock.classList = 'newTaskBlock';
 
-        var newCheckbox = document.createElement('input');
+        let newCheckbox = document.createElement('input');
         newCheckbox.type = 'checkbox';
         newCheckbox.name = 'checkTask';
         newCheckbox.classList = 'new-checkbox';
         newCheckbox.checked = elementLocal.checkbox;
 
-        var newTaskDate = document.createElement('p');
+        let newTaskDate = document.createElement('p');
         newTaskDate.classList = 'new-task_date';
 
-        var newTaskText = document.createElement('p');
+        let newTaskText = document.createElement('p');
         newTaskText.classList = 'new-task_text';
 
-        var newTaskImg = document.createElement('div');
+        let newTaskImg = document.createElement('div');
         newTaskImg.classList = 'new-task_img';
         newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
 
@@ -64,8 +64,9 @@ let dateMass = [];
                 newTaskText.style.textDecoration = 'none';
             }
         });*/
+        markerTodoList();
 
-        var allInput = document.body.querySelectorAll('.new-checkbox');
+        /*var allInput = document.body.querySelectorAll('.new-checkbox');
         var newTaskImg = document.querySelectorAll('.new-task_img');
         var allTaskText = document.body.querySelectorAll('.new-task_text');
         window.taskBlockAll = document.body.querySelectorAll('.newTaskBlock');
@@ -79,7 +80,7 @@ let dateMass = [];
                     evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'none';
                 }
             });
-        }
+        }*/
 
         todoList.appendChild(newTaskBlock);
 
@@ -88,14 +89,14 @@ let dateMass = [];
 
 
 btnAdd.addEventListener('click', function (evt) {
-    var taskInputValue = document.body.querySelector('.task-input').value;
-    var taskDateValue = document.body.querySelector('.task-date').value;
+    let taskInputValue = document.body.querySelector('.task-input').value;
+    let taskDateValue = document.body.querySelector('.task-date').value;
 
 
-    var newTaskBlock = document.createElement('div');
+    let newTaskBlock = document.createElement('div');
     newTaskBlock.classList = 'newTaskBlock';
 
-    var newCheckbox = document.createElement('input');
+    let newCheckbox = document.createElement('input');
     newCheckbox.type = 'checkbox';
     newCheckbox.name = 'checkTask';
     newCheckbox.classList = 'new-checkbox';
@@ -106,7 +107,7 @@ btnAdd.addEventListener('click', function (evt) {
     window.newTaskText = document.createElement('p');
     newTaskText.classList = 'new-task_text';
 
-    var newTaskImg = document.createElement('div');
+    let newTaskImg = document.createElement('div');
     newTaskImg.classList = 'new-task_img';
     newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
 
@@ -134,9 +135,9 @@ btnAdd.addEventListener('click', function (evt) {
         taskInput.style.border = '1px solid black';
         todoList.appendChild(newTaskBlock);
     }
-
-    var allInput = document.body.querySelectorAll('.new-checkbox');
-    var newTaskImg = document.querySelectorAll('.new-task_img');
+markerTodoList();
+   /* var allInput = document.body.querySelectorAll('.new-checkbox');
+    /!*let newTaskImg = document.querySelectorAll('.new-task_img');*!/
     var allTaskText = document.body.querySelectorAll('.new-task_text');
     window.taskBlockAll = document.body.querySelectorAll('.newTaskBlock');
 
@@ -151,9 +152,9 @@ btnAdd.addEventListener('click', function (evt) {
                 evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'none';
             }
         });
-    }
-
-    for (let index = 0; index < newTaskImg.length; index++) {
+    }*/
+basketTask();
+    /*for (let index = 0; index < newTaskImg.length; index++) {
         newTaskImg[index].addEventListener('click', function (evt) {
             var parentDiv = evt.target.parentElement.parentElement;
             for (var key in localStorage) {
@@ -163,7 +164,7 @@ btnAdd.addEventListener('click', function (evt) {
             }
             todoList.removeChild(parentDiv);
         });
-    }
+    }*/
     window.numTaskLocal = parseInt(localStorage.length) + Number(1);
     window.nameLocalTask = 'Task' + numTaskLocal;
     if (taskInput.value !== '') {
@@ -173,17 +174,34 @@ btnAdd.addEventListener('click', function (evt) {
 
 });
 
+function basketTask(){
+    let newTaskImg = document.querySelectorAll('.new-task_img');
+    for (let index = 0; index < newTaskImg.length; index++) {
+        newTaskImg[index].addEventListener('click', function (evt) {
+            let parentDiv = evt.target.parentElement.parentElement;
+            for (let key in localStorage) {
+                if ('Task' + parentDiv.id === key) {
+                    localStorage.removeItem(localStorage.key(nameLocalTask));
+                }
+            }
+            todoList.removeChild(parentDiv);
+        });
+    }
+}
+
 function markerTodoList(){
-    var allInput = document.body.querySelectorAll('.new-checkbox');
-    var newTaskImg = document.querySelectorAll('.new-task_img');
-    var allTaskText = document.body.querySelectorAll('.new-task_text');
+    let allInput = document.body.querySelectorAll('.new-checkbox');
+    let newTaskImg = document.querySelectorAll('.new-task_img');
+    let allTaskText = document.body.querySelectorAll('.new-task_text');
     window.taskBlockAll = document.body.querySelectorAll('.newTaskBlock');
-    for (var i = 0; i < allInput.length; i++) {
-        allInput[i].addEventListener('click', function (evt) {
+    for (let index = 0; index < allInput.length; index++) {
+        allInput[index].addEventListener('click', function (evt) {
             if (evt.target.checked === true) {
+                JSON.parse(localStorage.getItem(localStorage.key(index))).checkbox = true;
                 evt.target.parentElement.style.backgroundColor = '#90EE90';
                 evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'line-through';
             } else {
+                JSON.parse(localStorage.getItem(localStorage.key(index))).checkbox = false;
                 evt.target.parentElement.style.backgroundColor = 'lightgray';
                 evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'none';
             }
@@ -196,23 +214,23 @@ clearSortFilter.addEventListener('click', function () {
     todoList.innerHTML = '';
 
     for (let index = 0; index < localStorage.length; index++) {
-        let elementLocal = JSON.parse(localStorage.getItem(localStorage.key(index)));
-        var newTaskBlock = document.createElement('div');
+        window.elementLocal = JSON.parse(localStorage.getItem(localStorage.key(index)));
+        let newTaskBlock = document.createElement('div');
         newTaskBlock.classList = 'newTaskBlock';
 
-        var newCheckbox = document.createElement('input');
+        let newCheckbox = document.createElement('input');
         newCheckbox.type = 'checkbox';
         newCheckbox.name = 'checkTask';
         newCheckbox.classList = 'new-checkbox';
         newCheckbox.checked = elementLocal.checkbox;
 
-        var newTaskDate = document.createElement('p');
+        let newTaskDate = document.createElement('p');
         newTaskDate.classList = 'new-task_date';
 
-        var newTaskText = document.createElement('p');
+        let newTaskText = document.createElement('p');
         newTaskText.classList = 'new-task_text';
 
-        var newTaskImg = document.createElement('div');
+        let newTaskImg = document.createElement('div');
         newTaskImg.classList = 'new-task_img';
         newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
 
@@ -233,6 +251,8 @@ clearSortFilter.addEventListener('click', function () {
         }
 
         markerTodoList();
+
+        basketTask();
 
         todoList.appendChild(newTaskBlock);
 
@@ -284,22 +304,22 @@ function repaintTodoList(mas, func) {
     todoList.innerHTML = '';
 
     mas.forEach(function (item, index) {
-        var newTaskBlock = document.createElement('div');
+        let newTaskBlock = document.createElement('div');
         newTaskBlock.classList = 'newTaskBlock';
 
-        var newCheckbox = document.createElement('input');
+        let newCheckbox = document.createElement('input');
         newCheckbox.type = 'checkbox';
         newCheckbox.name = 'checkTask';
         newCheckbox.classList = 'new-checkbox';
         newCheckbox.checked = mas[index].checkbox;
 
-        var newTaskDate = document.createElement('p');
+        let newTaskDate = document.createElement('p');
         newTaskDate.classList = 'new-task_date';
 
-        var newTaskText = document.createElement('p');
+        let newTaskText = document.createElement('p');
         newTaskText.classList = 'new-task_text';
 
-        var newTaskImg = document.createElement('div');
+        let newTaskImg = document.createElement('div');
         newTaskImg.classList = 'new-task_img';
         newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
 
@@ -371,22 +391,22 @@ btnFilter.addEventListener('click', function () {
         if (+new Date(dateFilterMin) <= +new Date(filterMass[index].date) === true && +new Date(filterMass[index].date) <= +new Date(dateFilterMax)
             === true && filterMass[index].text.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1) {
 
-            var newTaskBlock = document.createElement('div');
+            let newTaskBlock = document.createElement('div');
             newTaskBlock.classList = 'newTaskBlock';
 
-            var newCheckbox = document.createElement('input');
+            let newCheckbox = document.createElement('input');
             newCheckbox.type = 'checkbox';
             newCheckbox.name = 'checkTask';
             newCheckbox.classList = 'new-checkbox';
             newCheckbox.checked = filterMass[index].checkbox;
 
-            var newTaskDate = document.createElement('p');
+            let newTaskDate = document.createElement('p');
             newTaskDate.classList = 'new-task_date';
 
-            var newTaskText = document.createElement('p');
+            let newTaskText = document.createElement('p');
             newTaskText.classList = 'new-task_text';
 
-            var newTaskImg = document.createElement('div');
+            let newTaskImg = document.createElement('div');
             newTaskImg.classList = 'new-task_img';
             newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
 
