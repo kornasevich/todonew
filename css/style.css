@@ -211,8 +211,16 @@ header span {
     position: absolute;
     left: 0;
     top:250px;
+    border-radius: 5px;
+    background-color: lightgray;
+    opacity: ;
 }
 
+.clear-sort-filter{
+    position: absolute;
+    top:180px;
+    left: 40px;
+}
 
 
 

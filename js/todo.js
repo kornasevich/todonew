@@ -1,28 +1,80 @@
 'use strict';
 
-var btnClear = document.body.querySelector('.task-btn_clear');
-var btnAdd = document.body.querySelector('.task-btn_add');
-var todoList = document.body.querySelector('.todo-list');
-let taskInput = document.body.querySelector('.task-input');
-let sortList = document.body.querySelector('.sort-list');
-let sortDateUp = document.body.querySelector('.sort-list .sort-list_date .sort-list_up');
-let sortDateDown = document.body.querySelector('.sort-list .sort-list_date .sort-list_down');
-let sortTextUp = document.body.querySelector('.sort-list .sort-list_text .sort-list_up');
-let sortTextDown = document.body.querySelector('.sort-list .sort-list_text .sort-list_down');
+const btnClear = document.body.querySelector('.task-btn_clear');
+const btnAdd = document.body.querySelector('.task-btn_add');
+const todoList = document.body.querySelector('.todo-list');
+const taskInput = document.body.querySelector('.task-input');
+const sortList = document.body.querySelector('.sort-list');
+const sortDateUp = document.body.querySelector('.sort-list .sort-list_date .sort-list_up');
+const sortDateDown = document.body.querySelector('.sort-list .sort-list_date .sort-list_down');
+const sortTextUp = document.body.querySelector('.sort-list .sort-list_text .sort-list_up');
+const sortTextDown = document.body.querySelector('.sort-list .sort-list_text .sort-list_down');
+const btnFilter = document.body.querySelector('.btn-filter');
+const clearSortFilter = document.body.querySelector('.clear-sort-filter');
+
 let taskMass = [];
 let dateMass = [];
 /*let mas = []*/
 
-function createTask() {
+(function () {
+    todoList.innerHTML = '';
 
-}
+    for(let index = 0; index < localStorage.length; index++){
+        let elementLocal = JSON.parse(localStorage.getItem(localStorage.key(index)));
+        var newTaskBlock = document.createElement('div');
+        newTaskBlock.classList = 'newTaskBlock';
+
+        var newCheckbox = document.createElement('input');
+        newCheckbox.type = 'checkbox';
+        newCheckbox.name = 'checkTask';
+        newCheckbox.classList = 'new-checkbox';
+        newCheckbox.checked = elementLocal.checkbox;
+
+        var newTaskDate = document.createElement('p');
+        newTaskDate.classList = 'new-task_date';
+
+        var newTaskText = document.createElement('p');
+        newTaskText.classList = 'new-task_text';
+
+        var newTaskImg = document.createElement('div');
+        newTaskImg.classList = 'new-task_img';
+        newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
+
+        newTaskDate.innerHTML = elementLocal.date;
+        newTaskText.innerHTML = elementLocal.text;
+
+        newTaskBlock.appendChild(newCheckbox);
+        newTaskBlock.appendChild(newTaskDate);
+        newTaskBlock.appendChild(newTaskText);
+        newTaskBlock.appendChild(newTaskImg);
+        if(newCheckbox.checked === true){
+            newTaskBlock.style.backgroundColor =  '#90EE90';
+            newTaskText.style.textDecoration = 'line-through';
+        } else{
+            newTaskBlock.style.backgroundColor =  'lightgray';
+            newTaskText.style.textDecoration = 'none';
+        }
+
+        newCheckbox.addEventListener('change', function () {
+            if(newCheckbox.checked === true){
+                newTaskBlock.style.backgroundColor =  '#90EE90';
+                newTaskText.style.textDecoration = 'line-through';
+            } else{
+                newTaskBlock.style.backgroundColor =  'lightgray';
+                newTaskText.style.textDecoration = 'none';
+            }
+        });
+
+        todoList.appendChild(newTaskBlock);
+
+    }
+})();
 
 
 btnAdd.addEventListener('click', function (evt) {
     var taskInputValue = document.body.querySelector('.task-input').value;
     var taskDateValue = document.body.querySelector('.task-date').value;
-    let taskDateValueNum = document.body.querySelector('.task-date').valueAsNumber;
-dateMass.push(taskDateValueNum);
+
 
     var newTaskBlock = document.createElement('div');
     newTaskBlock.classList = 'newTaskBlock';
@@ -50,6 +102,14 @@ dateMass.push(taskDateValueNum);
     newTaskBlock.appendChild(newTaskDate);
     newTaskBlock.appendChild(newTaskText);
     newTaskBlock.appendChild(newTaskImg);
+newTaskBlock.setAttribute('id', localStorage.length + 1 );
+
+    let newTaskObject = {};
+    newTaskObject.id = localStorage.length + 1;
+    newTaskObject.checkbox = newCheckbox.checked;
+    newTaskObject.date = newTaskDate.innerHTML;
+    newTaskObject.text = newTaskText.innerHTML;
+    
     if (taskInputValue === '') {
         alert('Заполните пустое поле');
         taskInput.style.border = '2px solid red';
@@ -77,32 +137,104 @@ dateMass.push(taskDateValueNum);
         });
     }
 
-    for (var j = 0; j < newTaskImg.length; j++) {
-        newTaskImg[j].addEventListener('click', function(evt) {
+    for (let index = 0; index < newTaskImg.length; index++) {
+        newTaskImg[index].addEventListener('click', function (evt) {
             var parentDiv = evt.target.parentElement.parentElement;
+            for(var key in localStorage){
+               if('Task' + parentDiv.id === key){
+                   localStorage.removeItem(localStorage.key('Task' + parentDiv.id));
+               }
+            }
+
+            localStorage.removeItem(localStorage.key('Task' + parentDiv.id));
             todoList.removeChild(parentDiv);
         });
     }
+           if(taskInput.value !== ''){
+               localStorage.setItem('Task' + localStorage.length, JSON.stringify(newTaskObject));
+           }
+
+
+
+/*   localStorage.setItem('Task' + newTaskObject.id, JSON.stringify(newTaskObject));*/
 
 
 
 });
 
-function removeTaskBlocks(){
-    var newTaskBlock = document.body.querySelectorAll('.newTaskBlock');
-    for (var i = 0; i < newTaskBlock.length; i++) {
-        todoList.removeChild(newTaskBlock[i]);
+
+
+
+clearSortFilter.addEventListener('click', function () {
+    todoList.innerHTML = '';
+
+    for(let index = 0; index < localStorage.length; index++){
+        let elementLocal = JSON.parse(localStorage.getItem(localStorage.key(index)));
+        var newTaskBlock = document.createElement('div');
+        newTaskBlock.classList = 'newTaskBlock';
+
+        var newCheckbox = document.createElement('input');
+        newCheckbox.type = 'checkbox';
+        newCheckbox.name = 'checkTask';
+        newCheckbox.classList = 'new-checkbox';
+        newCheckbox.checked = elementLocal.checkbox;
+
+        var newTaskDate = document.createElement('p');
+        newTaskDate.classList = 'new-task_date';
+
+        var newTaskText = document.createElement('p');
+        newTaskText.classList = 'new-task_text';
+
+        var newTaskImg = document.createElement('div');
+        newTaskImg.classList = 'new-task_img';
+        newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
+
+        newTaskDate.innerHTML = elementLocal.date;
+        newTaskText.innerHTML = elementLocal.text;
+
+        newTaskBlock.appendChild(newCheckbox);
+        newTaskBlock.appendChild(newTaskDate);
+        newTaskBlock.appendChild(newTaskText);
+        newTaskBlock.appendChild(newTaskImg);
+        if(newCheckbox.checked === true){
+            newTaskBlock.style.backgroundColor =  '#90EE90';
+            newTaskText.style.textDecoration = 'line-through';
+        } else{
+            newTaskBlock.style.backgroundColor =  'lightgray';
+            newTaskText.style.textDecoration = 'none';
+        }
+
+        newCheckbox.addEventListener('change', function () {
+            if(newCheckbox.checked === true){
+                newTaskBlock.style.backgroundColor =  '#90EE90';
+                newTaskText.style.textDecoration = 'line-through';
+            } else{
+                newTaskBlock.style.backgroundColor =  'lightgray';
+                newTaskText.style.textDecoration = 'none';
+            }
+        });
+
+        todoList.appendChild(newTaskBlock);
+
     }
+});
+
+
+
+
+function removeTaskBlocks(){
+    localStorage.clear();
+    todoList.innerHTML = "";
 }
 
 btnClear.addEventListener('click', removeTaskBlocks);
 
-let sortDateu = (taskBlockA, taskBlockB) => {
-    return parseInt(taskBlockA.dateSort) - parseInt(taskBlockB.dateSort);
+let dateSortUp = (taskBlockA, taskBlockB) => {
+    return new Date(taskBlockA.date) - new Date(taskBlockB.date);
 };
 
-let sortDated = (taskBlockA, taskBlockB) => {
-    return  parseInt(taskBlockB.dateSort) - parseInt(taskBlockA.dateSort);
+let dateSortDown = (taskBlockA, taskBlockB) => {
+    return new Date(taskBlockB.date) - new Date(taskBlockA.date);
 };
 
 let sortTextu = (taskBlockA, taskBlockB) =>{
@@ -123,7 +255,6 @@ function repaintTodoList(mas, func) {
     allTaskBlock.forEach(function(item, index){
         let taskObject = {};
         taskObject.checkbox = todoList.childNodes[index].childNodes[0].checked;
-        taskObject.dateSort = dateMass[index];
         taskObject.date = todoList.childNodes[index].childNodes[1].innerHTML;
         taskObject.text = todoList.childNodes[index].childNodes[2].innerHTML;
 
@@ -186,13 +317,15 @@ function repaintTodoList(mas, func) {
 
 
 
+
+
 sortList.addEventListener('click',({target}) => {
     switch (target) {
         case sortDateUp:
-            repaintTodoList(taskMass, sortDateu);
+            repaintTodoList(taskMass, dateSortUp);
             break;
         case sortDateDown:
-            repaintTodoList(taskMass, sortDated);
+            repaintTodoList(taskMass, dateSortDown);
             break;
         case sortTextUp:
             repaintTodoList(taskMass, sortTextu);
@@ -202,3 +335,79 @@ sortList.addEventListener('click',({target}) => {
             break;
     }
 });
+let filterMass = [];
+btnFilter.addEventListener('click', function() {
+    const dateFilterMin = document.body.querySelector('.date-filter_min').value;
+    const dateFilterMax = document.body.querySelector('.date-filter_max').value;
+    const textFilter = document.body.querySelector('.text-filter').value;
+
+    const newTaskBlocks = document.body.querySelectorAll('.newTaskBlock');
+    filterMass = [];
+
+    newTaskBlocks.forEach(function (item, index) {
+        let tempMassObj = new Object;
+    tempMassObj.checkbox = todoList.childNodes[index].childNodes[0].checked;
+    tempMassObj.date = todoList.childNodes[index].childNodes[1].innerHTML;
+    tempMassObj.text = todoList.childNodes[index].childNodes[2].innerHTML;
+        filterMass.push(tempMassObj);
+});
+    todoList.innerHTML = '';
+    filterMass.forEach(function (item, index) {
+
+   if(+new Date(dateFilterMin) <= +new Date(filterMass[index].date) === true &&  +new Date(filterMass[index].date) <= +new Date(dateFilterMax)
+       === true && filterMass[index].text.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1){
+
+       var newTaskBlock = document.createElement('div');
+       newTaskBlock.classList = 'newTaskBlock';
+
+       var newCheckbox = document.createElement('input');
+       newCheckbox.type = 'checkbox';
+       newCheckbox.name = 'checkTask';
+       newCheckbox.classList = 'new-checkbox';
+       newCheckbox.checked = filterMass[index].checkbox;
+
+       var newTaskDate = document.createElement('p');
+       newTaskDate.classList = 'new-task_date';
+
+       var newTaskText = document.createElement('p');
+       newTaskText.classList = 'new-task_text';
+
+       var newTaskImg = document.createElement('div');
+       newTaskImg.classList = 'new-task_img';
+       newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
+
+       newTaskDate.innerHTML = filterMass[index].date;
+       newTaskText.innerHTML = filterMass[index].text;
+
+       newTaskBlock.appendChild(newCheckbox);
+       newTaskBlock.appendChild(newTaskDate);
+       newTaskBlock.appendChild(newTaskText);
+       newTaskBlock.appendChild(newTaskImg);
+       if(newCheckbox.checked === true){
+           newTaskBlock.style.backgroundColor =  '#90EE90';
+           newTaskText.style.textDecoration = 'line-through';
+       } else{
+           newTaskBlock.style.backgroundColor =  'lightgray';
+           newTaskText.style.textDecoration = 'none';
+       }
+
+       newCheckbox.addEventListener('change', function () {
+           if(newCheckbox.checked === true){
+               newTaskBlock.style.backgroundColor =  '#90EE90';
+               newTaskText.style.textDecoration = 'line-through';
+           } else{
+               newTaskBlock.style.backgroundColor =  'lightgray';
+               newTaskText.style.textDecoration = 'none';
+           }
+       });
+
+       todoList.appendChild(newTaskBlock);
+   } else {
+       console.log('oops');
+   }
+});
+
+});
+
+
+

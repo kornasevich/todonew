@@ -13,15 +13,17 @@
     </header>
 
     <main>
+        <button class="clear-sort-filter">Сброс сортировки<br> и фильтрации</button>
         <div class="filter-list">
             <span style="margin-left: 70px">Фильтр</span>
             <div  style ="margin-bottom: 20px;margin-top: 20px" class="date">
-                Мин<input style="margin-left: 36px" class="date-min" type="date"><br></br>Макс<input style="margin-left: 30px; " class="date-max" type="date">
+                Мин<input class="date-filter_min" style="margin-left: 50px"  type="date" value="2019-02-18" min="2019-02-18" max="2999-12-31"><br></br>
+                Макс<input class="date-filter_max" style="margin-left: 44px;" type="date" value="2019-10-18" min="2019-02-18" max="2999-12-31">
             </div>
             <div class="text">
-                Введите текст<input style="width:103px" class="text-filter">
+                Введите текст<input class="text-filter" style="width:103px" >
             </div>
-            <button style="margin-top:20px; margin-left: 70px">Показать</button>
+            <button class="btn-filter" style="margin-top:20px; margin-left: 70px">Показать</button>
         </div>
         <div class="wrapper">
             <h1>ToDo List</h1>
@@ -43,6 +45,7 @@
             <button class="task-btn task-btn_add btn-class"><span>Add</span></button>
 
             <div class="sort-list">
+
                 <div class="sort-list_date">
                     <div class="sort-list_up"></div>
                     <div class="sort-list_down"></div>
