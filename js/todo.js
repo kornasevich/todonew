@@ -55,32 +55,9 @@ let dateMass = [];
             newTaskText.style.textDecoration = 'none';
         }
 
-        /*newCheckbox.addEventListener('change', function () {
-            if (newCheckbox.checked === true) {
-                newTaskBlock.style.backgroundColor = '#90EE90';
-                newTaskText.style.textDecoration = 'line-through';
-            } else {
-                newTaskBlock.style.backgroundColor = 'lightgray';
-                newTaskText.style.textDecoration = 'none';
-            }
-        });*/
         markerTodoList();
 
-        /*var allInput = document.body.querySelectorAll('.new-checkbox');
-        var newTaskImg = document.querySelectorAll('.new-task_img');
-        var allTaskText = document.body.querySelectorAll('.new-task_text');
-        window.taskBlockAll = document.body.querySelectorAll('.newTaskBlock');
-        for (var i = 0; i < allInput.length; i++) {
-            allInput[i].addEventListener('click', function (evt) {
-                if (evt.target.checked === true) {
-                    evt.target.parentElement.style.backgroundColor = '#90EE90';
-                    evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'line-through';
-                } else {
-                    evt.target.parentElement.style.backgroundColor = 'lightgray';
-                    evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'none';
-                }
-            });
-        }*/
+        basketTask();
 
         todoList.appendChild(newTaskBlock);
 
@@ -136,35 +113,9 @@ btnAdd.addEventListener('click', function (evt) {
         todoList.appendChild(newTaskBlock);
     }
 markerTodoList();
-   /* var allInput = document.body.querySelectorAll('.new-checkbox');
-    /!*let newTaskImg = document.querySelectorAll('.new-task_img');*!/
-    var allTaskText = document.body.querySelectorAll('.new-task_text');
-    window.taskBlockAll = document.body.querySelectorAll('.newTaskBlock');
 
-
-    for (var i = 0; i < allInput.length; i++) {
-        allInput[i].addEventListener('click', function (evt) {
-            if (evt.target.checked === true) {
-                evt.target.parentElement.style.backgroundColor = '#90EE90';
-                evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'line-through';
-            } else {
-                evt.target.parentElement.style.backgroundColor = 'lightgray';
-                evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'none';
-            }
-        });
-    }*/
 basketTask();
-    /*for (let index = 0; index < newTaskImg.length; index++) {
-        newTaskImg[index].addEventListener('click', function (evt) {
-            var parentDiv = evt.target.parentElement.parentElement;
-            for (var key in localStorage) {
-                if ('Task' + parentDiv.id === key) {
-                    localStorage.removeItem(localStorage.key(nameLocalTask));
-                }
-            }
-            todoList.removeChild(parentDiv);
-        });
-    }*/
+
     window.numTaskLocal = parseInt(localStorage.length) + Number(1);
     window.nameLocalTask = 'Task' + numTaskLocal;
     if (taskInput.value !== '') {
@@ -213,7 +164,7 @@ function markerTodoList(){
 clearSortFilter.addEventListener('click', function () {
     todoList.innerHTML = '';
 
-    for (let index = 0; index < localStorage.length; index++) {
+    for (let index = 0; index <= localStorage.length; index++) {
         window.elementLocal = JSON.parse(localStorage.getItem(localStorage.key(index)));
         let newTaskBlock = document.createElement('div');
         newTaskBlock.classList = 'newTaskBlock';
