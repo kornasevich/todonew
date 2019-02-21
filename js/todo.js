@@ -116,7 +116,7 @@ btnAdd.addEventListener('click', function (evt) {
     }
 markerTodoList();
 
-setTimeout(basketTask, 0);
+basketTask();
 
     window.numTaskLocal = parseInt(localStorage.length) + Number(1);
     window.nameLocalTask = 'Task' + numTaskLocal;
@@ -151,10 +151,24 @@ function markerTodoList(){
         allInput[index].addEventListener('click', function (evt) {
             if (evt.target.checked === true) {
                 JSON.parse(localStorage.getItem(localStorage.key(index))).checkbox = true;
+                let tempNewObject = {};
+                tempNewObject.id = JSON.parse(localStorage.getItem(localStorage.key(index))).id;
+                tempNewObject.checkbox = true;
+                tempNewObject.date = JSON.parse(localStorage.getItem(localStorage.key(index))).date;
+                tempNewObject.text = JSON.parse(localStorage.getItem(localStorage.key(index))).text;
+
+                localStorage.setItem(localStorage.key(index), JSON.stringify(tempNewObject));
                 evt.target.parentElement.style.backgroundColor = '#90EE90';
                 evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'line-through';
             } else {
                 JSON.parse(localStorage.getItem(localStorage.key(index))).checkbox = false;
+                let tempNewObject = {};
+                tempNewObject.id = JSON.parse(localStorage.getItem(localStorage.key(index))).id;
+                tempNewObject.checkbox = false;
+                tempNewObject.date = JSON.parse(localStorage.getItem(localStorage.key(index))).date;
+                tempNewObject.text = JSON.parse(localStorage.getItem(localStorage.key(index))).text;
+
+                localStorage.setItem(localStorage.key(index), JSON.stringify(tempNewObject));
                 evt.target.parentElement.style.backgroundColor = 'lightgray';
                 evt.target.nextElementSibling.nextElementSibling.style.textDecoration = 'none';
             }
