@@ -55,13 +55,15 @@ let dateMass = [];
             newTaskText.style.textDecoration = 'none';
         }
 
-        markerTodoList();
 
-        basketTask();
 
         todoList.appendChild(newTaskBlock);
 
     }
+
+    markerTodoList();
+
+    basketTask();
 })();
 
 
@@ -114,7 +116,7 @@ btnAdd.addEventListener('click', function (evt) {
     }
 markerTodoList();
 
-basketTask();
+setTimeout(basketTask, 0);
 
     window.numTaskLocal = parseInt(localStorage.length) + Number(1);
     window.nameLocalTask = 'Task' + numTaskLocal;
@@ -164,7 +166,7 @@ function markerTodoList(){
 clearSortFilter.addEventListener('click', function () {
     todoList.innerHTML = '';
 
-    for (let index = 0; index <= localStorage.length; index++) {
+    for (let index = 0; index < localStorage.length; index++) {
         window.elementLocal = JSON.parse(localStorage.getItem(localStorage.key(index)));
         let newTaskBlock = document.createElement('div');
         newTaskBlock.classList = 'newTaskBlock';
@@ -201,13 +203,15 @@ clearSortFilter.addEventListener('click', function () {
             newTaskText.style.textDecoration = 'none';
         }
 
-        markerTodoList();
 
-        basketTask();
 
         todoList.appendChild(newTaskBlock);
 
     }
+    markerTodoList();
+
+    basketTask();
+
 });
 
 
