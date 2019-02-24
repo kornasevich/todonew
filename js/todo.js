@@ -11,61 +11,68 @@ const sortTextUp = document.body.querySelector('.sort-list .sort-list_text .sort
 const sortTextDown = document.body.querySelector('.sort-list .sort-list_text .sort-list_down');
 const btnFilter = document.body.querySelector('.btn-filter');
 const clearSortFilter = document.body.querySelector('.clear-sort-filter');
+const newTaskMass = JSON.parse(localStorage.getItem(localStorage.key("myTaskList")));
+
 
 let taskMass = [];
 let dateMass = [];
-/*let mas = []*/
+let mas = [];
+mas.push(newTaskMass);
 
 (function () {
     todoList.innerHTML = '';
 
     for (let index = 0; index < localStorage.length; index++) {
-        let elementLocal = JSON.parse(localStorage.getItem(localStorage.key(index)));
-        let newTaskBlock = document.createElement('div');
-        newTaskBlock.classList = 'newTaskBlock';
+        let elementLocal = JSON.parse(localStorage.getItem(localStorage.key("myTaskList")));
+        if (elementLocal !== null) {
+            elementLocal.forEach(function (item, index) {
+                let newTaskBlock = document.createElement('div');
+                newTaskBlock.classList = 'newTaskBlock';
 
-        let newCheckbox = document.createElement('input');
-        newCheckbox.type = 'checkbox';
-        newCheckbox.name = 'checkTask';
-        newCheckbox.classList = 'new-checkbox';
-        newCheckbox.checked = elementLocal.checkbox;
+                let newCheckbox = document.createElement('input');
+                newCheckbox.type = 'checkbox';
+                newCheckbox.name = 'checkTask';
+                newCheckbox.classList = 'new-checkbox';
+                newCheckbox.checked = elementLocal.checkbox;
 
-        let newTaskDate = document.createElement('p');
-        newTaskDate.classList = 'new-task_date';
+                let newTaskDate = document.createElement('p');
+                newTaskDate.classList = 'new-task_date';
 
-        let newTaskText = document.createElement('p');
-        newTaskText.classList = 'new-task_text';
+                let newTaskText = document.createElement('p');
+                newTaskText.classList = 'new-task_text';
 
-        let newTaskImg = document.createElement('div');
-        newTaskImg.classList = 'new-task_img';
-        newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
+                let newTaskImg = document.createElement('div');
+                newTaskImg.classList = 'new-task_img';
+                newTaskImg.innerHTML = "<img src='img/basket.png' width='20px' height='25px'>";
 
-        newTaskDate.innerHTML = elementLocal.date;
-        newTaskText.innerHTML = elementLocal.text;
+                newTaskDate.innerHTML = elementLocal[index].date;
+                newTaskText.innerHTML = elementLocal[index].text;
 
-        newTaskBlock.appendChild(newCheckbox);
-        newTaskBlock.appendChild(newTaskDate);
-        newTaskBlock.appendChild(newTaskText);
-        newTaskBlock.appendChild(newTaskImg);
-        if (newCheckbox.checked === true) {
-            newTaskBlock.style.backgroundColor = '#90EE90';
-            newTaskText.style.textDecoration = 'line-through';
-        } else {
-            newTaskBlock.style.backgroundColor = 'lightgray';
-            newTaskText.style.textDecoration = 'none';
+                newTaskBlock.appendChild(newCheckbox);
+                newTaskBlock.appendChild(newTaskDate);
+                newTaskBlock.appendChild(newTaskText);
+                newTaskBlock.appendChild(newTaskImg);
+                newTaskBlock.setAttribute('id', index);
+
+
+                if (newCheckbox.checked === true) {
+                    newTaskBlock.style.backgroundColor = '#90EE90';
+                    newTaskText.style.textDecoration = 'line-through';
+                } else {
+                    newTaskBlock.style.backgroundColor = 'lightgray';
+                    newTaskText.style.textDecoration = 'none';
+                }
+                todoList.appendChild(newTaskBlock);
+            });
+
         }
 
+        /* markerTodoList();*/
 
-
-        todoList.appendChild(newTaskBlock);
-
+        /* basketTask();*/
     }
-
-    markerTodoList();
-
-    basketTask();
+    deleteTask();
 })();
-
 
 btnAdd.addEventListener('click', function (evt) {
     let taskInputValue = document.body.querySelector('.task-input').value;
@@ -98,13 +105,27 @@ btnAdd.addEventListener('click', function (evt) {
     newTaskBlock.appendChild(newTaskDate);
     newTaskBlock.appendChild(newTaskText);
     newTaskBlock.appendChild(newTaskImg);
-    newTaskBlock.setAttribute('id', localStorage.length);
+    if(JSON.parse(localStorage.getItem('myTaskList')) === null){
+        newTaskBlock.setAttribute('id', 0);
+    } else{
+        let allTask = document.body.querySelectorAll('.newTaskBlock');
+        for(let k = 0; k < allTask.length; k++){
+            newTaskBlock.setAttribute('id', allTask.length );
+        }
+    }
 
-    let newTaskObject = {};
-    newTaskObject.id = localStorage.length + 1;
+    const newTaskObject = {};
+    if(JSON.parse(localStorage.getItem('myTaskList')) === null){
+        newTaskObject.id = 0;
+    } else {
+        newTaskObject.id = JSON.parse(localStorage.getItem('myTaskList')).length;
+    }
     newTaskObject.checkbox = newCheckbox.checked;
     newTaskObject.date = newTaskDate.innerHTML;
     newTaskObject.text = newTaskText.innerHTML;
+    /*newTaskMass.push(JSON.parse(localStorage.getItem('myTaskList')));*/
+    mas.push(newTaskObject);
+
 
     if (taskInputValue === '') {
         alert('Заполните пустое поле');
@@ -114,33 +135,78 @@ btnAdd.addEventListener('click', function (evt) {
         taskInput.style.border = '1px solid black';
         todoList.appendChild(newTaskBlock);
     }
-markerTodoList();
+/*markerTodoList();*/
 
-basketTask();
+/*basketTask();*/
 
-    window.numTaskLocal = parseInt(localStorage.length) + Number(1);
-    window.nameLocalTask = 'Task' + numTaskLocal;
     if (taskInput.value !== '') {
-        localStorage.setItem(nameLocalTask, JSON.stringify(newTaskObject));
+        localStorage.setItem('myTaskList', JSON.stringify(newTaskMass));
+    }
+
+    let data = JSON.parse(localStorage.getItem("myTaskList"));
+    for(let j = 0; j < data.length; j++){
+        data[j].id = j;
     }
 
 
 });
 
-function basketTask(){
+function deleteTask(){
+    todoList.addEventListener('click', function(event) {
+        let newTaskImg = document.querySelectorAll('.new-task_img');
+        let parentElement = event.target.parentElement.parentElement;
+        for(let index = 0 ; index < newTaskImg.length; index++) {
+            let data = JSON.parse(localStorage.getItem("myTaskList"));
+            if(event.target.parentElement === newTaskImg[index]){
+                data.splice(index, 1);
+            }
+            for(let j = 0; j < data.length; j++){
+                data[j].id = j;
+            }
+            /*data[index].id = index;*/
+            localStorage.setItem('myTaskList', JSON.stringify(data));
+
+        }
+        todoList.removeChild(parentElement);
+        let allTask = document.body.querySelectorAll('.newTaskBlock');
+        for(let k = 0; k < allTask.length; k++){
+            allTask[k].id = k;
+        }
+
+
+    });
+}
+
+
+
+/*function basketTask() {
     let newTaskImg = document.querySelectorAll('.new-task_img');
     for (let index = 0; index < newTaskImg.length; index++) {
         newTaskImg[index].addEventListener('click', function (evt) {
             let parentDiv = evt.target.parentElement.parentElement;
-            for (let key in localStorage) {
-                if ('Task' + parentDiv.id === key) {
-                    localStorage.removeItem(localStorage.key(nameLocalTask));
-                }
-            }
+                   let data = JSON.parse(localStorage.getItem("myTaskList"));
+                    for (let indexTwo = 0; indexTwo < data.length; indexTwo++) {
+                        if (index === indexTwo) {
+                            data.splice(index, 1);
+                            console.log(data);
+                            data.forEach(function (item, index) {
+
+
+                               data[index].id = index;
+                            });
+                        }
+                        localStorage.setItem('myTaskList', JSON.stringify(data));
+                    }
             todoList.removeChild(parentDiv);
+            let ntb = document.body.querySelectorAll('.newTaskBlock');
+            ntb.forEach(function (item, index) {
+                item.setAttribute('id', index);
+            });
+
         });
+        break;
     }
-}
+}*/
 
 function markerTodoList(){
     let allInput = document.body.querySelectorAll('.new-checkbox');
@@ -208,6 +274,7 @@ clearSortFilter.addEventListener('click', function () {
         newTaskBlock.appendChild(newTaskDate);
         newTaskBlock.appendChild(newTaskText);
         newTaskBlock.appendChild(newTaskImg);
+        newTaskBlock.setAttribute('id', elementLocal.id);
         if (newCheckbox.checked === true) {
             console.log(newCheckbox.checked);
             newTaskBlock.style.backgroundColor = '#90EE90';
@@ -222,9 +289,9 @@ clearSortFilter.addEventListener('click', function () {
         todoList.appendChild(newTaskBlock);
 
     }
-    markerTodoList();
+ /*   markerTodoList();*/
 
-    basketTask();
+/*    basketTask();*/
 
 });
 
@@ -236,23 +303,7 @@ function removeTaskBlocks() {
 
 btnClear.addEventListener('click', removeTaskBlocks);
 
-let dateSortUp = (taskBlockA, taskBlockB) => {
-    return new Date(taskBlockA.date) - new Date(taskBlockB.date);
-};
 
-let dateSortDown = (taskBlockA, taskBlockB) => {
-    return new Date(taskBlockB.date) - new Date(taskBlockA.date);
-};
-
-let sortTextu = (taskBlockA, taskBlockB) => {
-    if (taskBlockA.text < taskBlockB.text) return -1;
-    if (taskBlockA.text < taskBlockB.text) return 1;
-};
-
-let sortTextd = (taskBlockA, taskBlockB) => {
-    if (taskBlockA.text > taskBlockB.text) return -1;
-    if (taskBlockA.text > taskBlockB.text) return 1;
-};
 
 
 function repaintTodoList(mas, func) {
