@@ -10,12 +10,14 @@ const arrayLocalStorage = JSON.parse(localStorage.getItem('myTaskList'));
 const btnClear = document.body.querySelector('.clear-sort-filter');
 const btnFilter = document.body.querySelector('.btn-filter');
 const arrayTasks = [];
+let arrayFilter = [];
 
 (function () {
-    if (localStorage.getItem('myTaskList') !== null) {
+    if (localStorage.getItem('myTaskList')) {
         arrayLocalStorage.forEach(function (item, index) {
             createTask(arrayLocalStorage[index].date, arrayLocalStorage[index].text, arrayLocalStorage[index].checkbox);
         });
+
         todoList.addEventListener('click', deleteTask);
 
         todoList.addEventListener('click', taskComplete);
@@ -26,13 +28,15 @@ const arrayTasks = [];
 taskBtnAdd.addEventListener('click', function () {
     const taskDate = document.querySelector('.task-date').value;
     const taskText = document.querySelector('.task-input').value;
-    if (taskText !== '') {
+
+    if (taskText !== '' && taskDate !== '') {
         document.body.querySelector('.task-input').style.border = '1px solid black';
         createTask(taskDate, taskText);
     } else {
         document.body.querySelector('.task-input').style.border = '2px solid red';
-        alert('Введите задачу: ');
+        document.body.querySelector('.task-date').style.border = '2px solid red'
     }
+    console.log(taskDate);
     todoList.addEventListener('click', deleteTask);
 
     todoList.addEventListener('click', taskComplete);
@@ -185,17 +189,23 @@ function deleteTask({target}) {
 function clearTodoList() {
     localStorage.clear();
     todoList.innerHTML = "";
-    arrayTasks.length = 0;
+    arrayTasks.splice(0, arrayTasks.length);
 }
 
 
 function sortTodoList(sortFunction) {
     todoList.innerHTML = '';
-  /*  let tempArray = [];
-    tempArray = arrayLocalStorage.slice(0);*/
     arrayTasks.sort(sortFunction);
     arrayTasks.forEach(function (item, index) {
         repaintTodoList(arrayTasks[index].date, arrayTasks[index].text, arrayTasks[index].checkbox);
+    });
+}
+
+function sortTodoListInFilter(sortFunction) {
+    todoList.innerHTML = '';
+    arrayFilter.sort(sortFunction);
+    arrayFilter.forEach(function (item, index) {
+        repaintTodoList(arrayFilter[index].date, arrayFilter[index].text, arrayFilter[index].checkbox);
     });
 }
 
@@ -210,21 +220,18 @@ let dateSortDown = (taskBlockA, taskBlockB) => {
 
 let textSortUp = (taskBlockA, taskBlockB) => {
     if (taskBlockA.text < taskBlockB.text) return -1;
-    if (taskBlockA.text < taskBlockB.text) return 1;
 };
 
 let textSortDown = (taskBlockA, taskBlockB) => {
     if (taskBlockA.text > taskBlockB.text) return -1;
-    if (taskBlockA.text > taskBlockB.text) return 1;
 };
 
 function clearSortFilter() {
     todoList.innerHTML = '';
     let tempLocalStorage = JSON.parse(localStorage.getItem('myTaskList'));
-    tempLocalStorage.forEach(function (item, index) {
-        repaintTodoList(tempLocalStorage[index].date, tempLocalStorage[index].text, tempLocalStorage[index].checkbox);
+    tempLocalStorage.forEach(function ({date, text, checkbox}) {
+        repaintTodoList(date, text, checkbox);
     });
-
 }
 
 function filterTodoList() {
@@ -234,10 +241,28 @@ function filterTodoList() {
 
     todoList.innerHTML = '';
 
-    arrayTasks.forEach(function (item, index) {
-        if (+new Date(dateFilterMin) <= +new Date(arrayTasks[index].date) === true && +new Date(arrayTasks[index].date) <= +new Date(dateFilterMax) ===
-            true && arrayTasks[index].text.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1) {
-            repaintTodoList(arrayTasks[index].date, arrayTasks[index].text, arrayTasks[index].checkbox)
+    arrayTasks.forEach(function ({date, text, checkbox}, index) {
+        if (+new Date(dateFilterMin) <= +new Date(date) && +new Date(date) <= +new Date(dateFilterMax) && text.toLowerCase().indexOf(textFilter.toLowerCase()) !== -1) {
+            repaintTodoList(date, text, checkbox);
+            arrayFilter.push(arrayTasks[index]);
         }
-    })
+    });
+
+    sortList.addEventListener('click', ({target}) => {
+        switch (target) {
+            case sortDateUp:
+                sortTodoListInFilter(dateSortUp);
+                break;
+            case sortDateDown:
+                sortTodoListInFilter(dateSortDown);
+                break;
+            case sortTextUp:
+                sortTodoListInFilter(textSortUp);
+                break;
+            case sortTextDown:
+                sortTodoListInFilter(textSortDown);
+                break;
+        }
+    });
+
 }
